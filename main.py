@@ -1,5 +1,4 @@
 
-#1
 import openpyxl
 
 from datetime import datetime
@@ -30,6 +29,7 @@ def getBirthdaysList():
     # open file xlsx
     workbook = openpyxl.load_workbook(file, data_only=True) # data_only=True - to get a data from cell instead of formula
     worksheet = workbook.active
+    
     personInfo = {}
     generalInfo = {}
     # first cell
@@ -62,22 +62,23 @@ def getBirthdayAlert():
                     chat_id = chat_id_private
                 else:
                     chat_id = chat_id_public
-                ageInfo = f"By the way, that young man will turn '<b>{int(getBirthdaysList()[person]['age'])}</b>' years tomorrow!" \
+                ageInfo = f"By the way, that young person will turn '<b>{int(getBirthdaysList()[person]['age'])}</b>' years tomorrow!" \
                     if getBirthdaysList()[person]['yearIsUnknown'] == 'false' else ''
                 message = f"'<b>{person}</b>' is celebrating his birthday TOMORROW - {year_months[birthday_month]} of {birthday_day}! Don't forget it! \n{ageInfo}"
                 for chat in chat_id:
                     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                     print(requests.get(url).json())
+                    time.sleep(0.5)
             elif birthday_day - today_day == 0:
                 if getBirthdaysList()[person]['private'] == 'true':
                     chat_id = chat_id_private
                 else:
                     chat_id = chat_id_public
-                ageInfo = f"By the way, that young man has turned '<b>{int(getBirthdaysList()[person]['age'])}</b>' years today!" \
+                ageInfo = f"By the way, that young person has turned '<b>{int(getBirthdaysList()[person]['age'])}</b>' years today!" \
                     if getBirthdaysList()[person]['yearIsUnknown'] == 'false' else ''
-                message = f"'<b>{person}</b>' is celebrating his birthday TODAY - {today}!\n{ageInfo}"
+                message = f"'<b>{person}</b>' is celebrating his birthday TODAY - {year_months[birthday_month]} of {birthday_day}!\n{ageInfo}"
                 for chat in chat_id:
-                    file_ = 'vitya' if person == '@Victor' else randint(1, 22)
+                    file_ = 'vitya' if person == 'Victor Vetoshkin' else randint(1, 22)
                     file = {'photo': (f'Images/{file_}.jpg', open(f'Images/{file_}.jpg', 'rb'))}
                     data = {
                         'chat_id': chat,
@@ -88,17 +89,19 @@ def getBirthdayAlert():
                     response = requests.post(f"https://api.telegram.org/bot{TOKEN}/sendPhoto",
                                              data=data, files=file)
                     print(response.status_code)
+                    time.sleep(0.5)
         elif birthday_day == 1 and today == calendar.monthrange(today_year, today_month)[1]:
             if getBirthdaysList()[person]['private'] == 'true':
                 chat_id = chat_id_private
             else:
                 chat_id = chat_id_public
-            ageInfo = f"By the way, that young man will turn '<b>{int(getBirthdaysList()[person]['age'])}</b>' years tomorrow!" \
+            ageInfo = f"By the way, that young person will turn '<b>{int(getBirthdaysList()[person]['age'])}</b>' years tomorrow!" \
                 if getBirthdaysList()[person]['yearIsUnknown'] == 'false' else ''
             message = f"'<b>{person}</b>' is celebrating his birthday TOMORROW - {year_months[birthday_month]} of {birthday_day}! Don't forget it! \n{ageInfo}"
             for chat in chat_id:
                 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                 print(requests.get(url).json())
+                time.sleep(0.5)
 
 #3
 def getSlavaAlert():
@@ -113,33 +116,33 @@ def getSlavaAlert():
                     for chat in chat_id:
                         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                         print(requests.get(url).json())
+                        time.sleep(0.5)
                 elif slavaDay - today_day == 0:
                     message = f"'<b>{person}</b>' is celebrating his slava day TODAY: {today} - <b>{getBirthdaysList()[person]['stDay']}</b>!"
                     for chat in chat_id:
                         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                         print(requests.get(url).json())
+                        time.sleep(0.5)
                 elif slavaDay - today_day == 4:
                     message = f"'<b>{person}</b>' is celebrating his slava day in 4 days: {year_months[slavaMonth]} of {slavaDay} - <b>{getBirthdaysList()[person]['stDay']}</b>!"
                     for chat in chat_id:
                         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                         print(requests.get(url).json())
+                        time.sleep(0.5)
 
 #4
 def loop():
-    timer_hours = 9
-    timer_min = 00
+    timer_hours = 14
+    timer_min = 6
     timer_sec = 00
-    while True:
-        time_now = datetime.today().time()
-        time.sleep(1)
-        if time_now.hour == timer_hours and time_now.minute == timer_min and time_now.second == timer_sec:
-            getBirthdayAlert()
-            getSlavaAlert()
+    time_now = datetime.today().time()
+    if time_now.hour == timer_hours and time_now.minute == timer_min and time_now.second == timer_sec:
+        getBirthdayAlert()
+        getSlavaAlert()
 
 def main():
-    # pass
-    loop()
+    while True:
+        loop()
 
 if __name__ == '__main__':
     main()
-
