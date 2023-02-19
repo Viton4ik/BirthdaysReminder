@@ -62,9 +62,9 @@ def getBirthdayAlert():
                     chat_id = chat_id_private
                 else:
                     chat_id = chat_id_public
-                ageInfo = f"By the way, that young person will turn '<b>{int(getBirthdaysList()[person]['age'])}</b>' years tomorrow!" \
+                ageInfo = f"By the way, that young person will turn '<b>{int(getBirthdaysList()[person]['age'])+1}</b>' years tomorrow!" \
                     if getBirthdaysList()[person]['yearIsUnknown'] == 'false' else ''
-                message = f"'<b>{person}</b>' is celebrating his birthday TOMORROW - {year_months[birthday_month]} of {birthday_day}! Don't forget it! \n{ageInfo}"
+                message = f"'<b>{person}</b>' is celebrating the birthday TOMORROW - {year_months[birthday_month]} of {birthday_day}! Don't forget it! \n{ageInfo}"
                 for chat in chat_id:
                     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                     print(requests.get(url).json())
@@ -76,7 +76,7 @@ def getBirthdayAlert():
                     chat_id = chat_id_public
                 ageInfo = f"By the way, that young person has turned '<b>{int(getBirthdaysList()[person]['age'])}</b>' years today!" \
                     if getBirthdaysList()[person]['yearIsUnknown'] == 'false' else ''
-                message = f"'<b>{person}</b>' is celebrating his birthday TODAY - {year_months[birthday_month]} of {birthday_day}!\n{ageInfo}"
+                message = f"'<b>{person}</b>' is celebrating the birthday TODAY - {year_months[birthday_month]} of {birthday_day}!\n{ageInfo}"
                 for chat in chat_id:
                     file_ = 'vitya' if person == 'Victor Vetoshkin' else randint(1, 22)
                     file = {'photo': (f'Images/{file_}.jpg', open(f'Images/{file_}.jpg', 'rb'))}
@@ -97,7 +97,7 @@ def getBirthdayAlert():
                 chat_id = chat_id_public
             ageInfo = f"By the way, that young person will turn '<b>{int(getBirthdaysList()[person]['age'])}</b>' years tomorrow!" \
                 if getBirthdaysList()[person]['yearIsUnknown'] == 'false' else ''
-            message = f"'<b>{person}</b>' is celebrating his birthday TOMORROW - {year_months[birthday_month]} of {birthday_day}! Don't forget it! \n{ageInfo}"
+            message = f"'<b>{person}</b>' is celebrating the birthday TOMORROW - {year_months[birthday_month]} of {birthday_day}! Don't forget it! \n{ageInfo}"
             for chat in chat_id:
                 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat}&text={message}&parse_mode=HTML"
                 print(requests.get(url).json())
@@ -135,7 +135,7 @@ def loop():
     timer_hours = 14
     timer_min = 6
     timer_sec = 00
-    time_now = datetime.today().time()
+    time_now = datetime.now().time()
     if time_now.hour == timer_hours and time_now.minute == timer_min and time_now.second == timer_sec:
         getBirthdayAlert()
         getSlavaAlert()
