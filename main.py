@@ -17,11 +17,6 @@ chat_id_private = [] # put list of your private chat_id here !!!
 year_months = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August',
                 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
 
-today = datetime.today().date()
-today_year = datetime.today().date().year
-today_month = datetime.today().date().month
-today_day = datetime.today().date().day
-
 file = 'Birthdays.xlsx'
 
 #1
@@ -142,6 +137,10 @@ def loop():
 
 def main():
     while True:
+        today = datetime.today().date()
+        today_year = datetime.today().date().year
+        today_month = datetime.today().date().month
+        today_day = datetime.today().date().day
         loop()
 
 if __name__ == '__main__':
